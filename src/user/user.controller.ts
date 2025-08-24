@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -20,16 +20,33 @@ export class UserController {
   findAll(@Query("search") search : string) {
     return this.userService.findAll(search);
   }
+  @Get("/order")
+  orderData() {
+    return this.userService.orderData();
+  }
+  @Get("/pagination")
+  pagination(@Query() paginationDto : {page : number , limit : number}) {
+    return this.userService.pagination(paginationDto);
+  }
 
+  @Get('/selection')
+  selection() {
+    return this.userService.selection();
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
+
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  //   return this.userService.update(+id, updateUserDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

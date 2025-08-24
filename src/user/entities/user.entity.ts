@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BlogEntity } from "src/blog/entities/blog.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("user")
 export class UserEntity {
@@ -14,5 +15,7 @@ export class UserEntity {
     age : number ;
     @CreateDateColumn()
     created_ad : Date ;
+    @OneToMany(()=>BlogEntity , (blog)=> blog.user)
+    blog : BlogEntity[]
 
 }
