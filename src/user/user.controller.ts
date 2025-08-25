@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Put } from '@
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { profileDto } from './dto/profile-dto';
 
 @Controller('user')
 export class UserController {
@@ -15,6 +16,10 @@ export class UserController {
   insert(@Body() createDto : CreateUserDto) {
     return this.userService.insert(createDto);
   }
+  @Post("/profile")
+  createProfile(@Body() profileDtto : profileDto) {
+    return this.userService.createProfile(profileDtto);
+  }
 
   @Get("/list")
   findAll(@Query("search") search : string) {
@@ -27,6 +32,11 @@ export class UserController {
   @Get("/pagination")
   pagination(@Query() paginationDto : {page : number , limit : number}) {
     return this.userService.pagination(paginationDto);
+  }
+
+  @Get('/blog/:id')
+  getBlogOfUser(@Param("userId") userId : number) {
+    return this.userService.blogOfUser(userId);
   }
 
   @Get('/selection')
@@ -51,5 +61,10 @@ export class UserController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
+  }
+
+  @Get("/profile/:id")
+  findUserByProfile(@Param("id")id:string){
+    return this.userService.findUserByProfile(+id) 
   }
 }
